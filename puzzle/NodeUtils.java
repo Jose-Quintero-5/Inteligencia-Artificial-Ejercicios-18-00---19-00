@@ -45,5 +45,15 @@ public class NodeUtils {
 
         return successors;
     }
+    public static String formatState(String state){
+        String formattedState = "";
+        for(int i = 0; i < state.length(); i++){
+            formattedState += state.charAt(i) + " ";
+            if((i + 1) % 3 == 0){
+                formattedState += "\n";
+            }
+        }
+        return formattedState;
+    }
 }
  
