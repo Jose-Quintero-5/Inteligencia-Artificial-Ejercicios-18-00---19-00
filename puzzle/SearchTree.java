@@ -109,41 +109,42 @@ public class SearchTree {
     }
 
     public SearchResult depthLimitedSearch(int limit) {
-        long start = System.nanoTime();
-        SearchCounters counters = new SearchCounters();
-        Node found = depthLimited(root, limit, new HashSet<>(), counters);
-        return result(found != null, found, counters.expanded, counters.generated, start);
+    long start = System.nanoTime();
+    SearchCounters counters = new SearchCounters();
+    counters.generated = 1; // la raíz
+    Node found = depthLimited(root, limit, new HashSet<>(), counters);
+    return result(found != null, found, counters.expanded, counters.generated, start);
     }
 
-    private Node depthLimited(Node current, int limit, Set<String> path, SearchCounters counters) {
-        counters.expanded++;
-        counters.generated++;
-        if (current.getState().equals(goalState)) {
-            return current;
-        }
-        if (current.getDepth() >= limit) {
-            return null;
-        }
-
-        path.add(current.getState());
-        for (Node child : NodeUtils.generateChildren(current)) {
-            if (!path.contains(child.getState())) {
-                Node found = depthLimited(child, limit, path, counters);
-                if (found != null) {
-                    return found;
-                }
-            }
-        }
-        path.remove(current.getState());
+   private Node depthLimited(Node current, int limit, Set<String> path, SearchCounters counters) {
+    counters.expanded++;
+    if (current.getState().equals(goalState)) {
+        return current;
+    }
+    if (current.getDepth() >= limit) {
         return null;
     }
 
+    path.add(current.getState());
+    for (Node child : NodeUtils.generateChildren(current)) {
+        counters.generated++;
+        if (!path.contains(child.getState())) {
+            Node found = depthLimited(child, limit, path, counters);
+            if (found != null) {
+                return found;
+            }
+        }
+    }
+    path.remove(current.getState());
+    return null;
+}
     public SearchResult iterativeDeepeningSearch() {
         long start = System.nanoTime();
         SearchCounters total = new SearchCounters();
         int limit = 0;
         while (true) {
             SearchCounters current = new SearchCounters();
+            current.generated = 1;
             Node found = depthLimited(root, limit, new HashSet<>(), current);
             total.expanded += current.expanded;
             total.generated += current.generated;
