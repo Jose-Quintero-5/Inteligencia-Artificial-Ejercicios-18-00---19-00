@@ -1,0 +1,20 @@
+{
+  "clases": [
+    "Daniel",
+    "Jennifer lawrence",
+    "Johnny depp",
+    "Jose de Jesus",
+    "Miriam",
+    "Rodrigo",
+    "Scarlet johanson",
+    "Tom cruise",
+    "Will smith"
+  ],
+  "tamano": 128,
+  "modo": "transfer",
+  "normalizar_iluminacion": {
+    "metodo": "clahe_lab",
+    "clip": 2.0,
+    "tile": 8
+  }
+}
